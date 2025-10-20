@@ -1,0 +1,95 @@
+body {
+  font-family: sans-serif;
+  padding: 10px;
+  width: 250px;
+  height: auto;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+.setting {
+  margin-bottom: 12px;
+}
+
+button {
+  margin: 4px 2px;
+  padding: 6px;
+}
+
+.toggle-button {
+  width:30%;
+  justify-content: space-between;
+}
+
+.toggle-button.active {
+  background-color: #599452;
+}
+
+.size-button {
+  width: 20%;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.restore-button {
+  display: block;
+  width: 100%;
+  margin: 8px auto;
+  text-align: center;
+  background-color: #b6b6b6;
+  border-radius: 4px;
+}
+
+.font-button {
+  width: calc(50% - 7px);
+  margin:4px 2px;
+}
+
+.restore-button.font-button {
+  display: inline-block;
+}
+
+.theme-button {
+  width: 30%;
+  margin: 4px 0;
+}
+
+.high-contrast {
+  color: #000;
+  background-color: yellow;
+}
+
+.dark-theme {
+  color: #222;
+  background-color: #777777;
+}
+
+.light-theme {
+  color: rgb(20, 20, 20);
+  background-color: white;
+}
+
+.choice {
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+}
+
+.color-pickers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.color-pickers label {
+  font-size: 14px;
+  margin-right: 4px;
+}

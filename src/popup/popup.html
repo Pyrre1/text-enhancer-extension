@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Texthjälparen</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <h2>Välkommen till Texthjälparen!</h2><br>
+
+  <div class="section">
+    <strong>Vilka texter vill du påverka?</strong><br>
+    <div class="button-container">
+      <button id="toggle-body" class="toggle-button">Brödtext</button>
+      <button id="toggle-headings" class="toggle-button">Rubriker</button>
+      <button id="toggle-links" class="toggle-button">Länkar</button>
+    </div>
+  </div>
+  <div class="section">
+    <strong>Storlek:</strong><br>
+    <div class="button-container">
+      <button id="min" class="size-button">Min</button>
+      <button id="decrease" class="size-button">-</button>
+      <button id="increase" class="size-button">+</button>
+      <button id="max" class="size-button">Max</button>
+    </div>
+    <button id="restoreSize" class="restore-button">Återställ storlekar</button>
+  </div>
+  <div class="section">
+    <strong>Textstil:</strong><br>
+    <button id="cycleFont" class="font-button">Byt font</button>
+    <button id="restoreFont" class="restore-button font-button">Återställ font</button>
+  </div>
+  <div class="section">
+    <strong>Färger och teman:</strong><br>
+    <div class="button-container">
+      <button id="theme-light" class="theme-button light-theme">Ljus</button>
+      <button id="theme-dark" class="theme-button dark-theme">Mörk</button>
+      <button id="theme-contrast" class="theme-button high-contrast">Kontrast</button>
+    </div>
+    <strong class="choice">Eget val:</strong>
+    <div class="color-pickers button-container">
+      <div class="color">
+        <label for="textColor">Text:</label>
+        <input type="color" id="textColor" title="Textfärg" value="#000000"/>
+      </div>
+      <div class="color">
+        <label for="backgroundColor">Bakgrund:</label>
+        <input type="color" id="backgroundColor" title="Bakgrundsfärg" value="#ffffff"/>
+      </div>
+    </div>
+    <button id="resetColors" class="restore-button">Återställ färger</button>
+  </div>
+  <div class="section">
+    <strong>Återställ alla inställningar:</strong><br>
+    <button id="resetAll" class="restore-button">Återställ allt</button>
+  </div>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
