@@ -61,18 +61,18 @@ button {
 }
 
 .high-contrast {
-  color: #000;
-  background-color: yellow;
+  color: #000000ff;
+  background-color: #fffb00ff;
 }
 
 .dark-theme {
-  color: #222;
-  background-color: #777777;
+  color: #b3b3b3ff;
+  background-color: #222222ff;
 }
 
 .light-theme {
-  color: rgb(20, 20, 20);
-  background-color: white;
+  color: #000000ff;
+  background-color: #ffffffff;
 }
 
 .choice {
