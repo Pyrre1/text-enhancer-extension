@@ -4,7 +4,7 @@
   "version": "1.0",
   "description": "A browser extension that enhances text readability by adjusting font size, style and color for a better readability and accessibility.",
   "action": {
-    "default_popup": "src/popup/popup.html"
+    "default_popup": "popup.html"
   },
   "permissions": [
     "activeTab",
@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["src/content/content.js"],
+      "js": ["content.js"],
       "run_at": "document_idle"
     }
   ]

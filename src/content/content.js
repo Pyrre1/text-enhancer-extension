@@ -1,5 +1,4 @@
 import {
-  selectorMap,
   getBestSelector,
   highlightElement,
   getElementsByCategories,
@@ -7,6 +6,7 @@ import {
 } from '../utils/helpers.js'
 import { createTextEnhancer } from 'text-enhancer'
 
+console.log('Text Enhancer content script loaded')
 // Initialize the Text Enhancer with default settings
 const enhancer = createTextEnhancer({
   selectors: [],
@@ -202,12 +202,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
     case 'decreaseTextSize': {
       syncEnhancerSelectors()
-      enhancer.adjustTextSize()
+      enhancer.decreaseTextSize()
       break
     }
     case 'increaseTextSize': {
       syncEnhancerSelectors()
-      enhancer.adjustTextSize()
+      enhancer.increaseTextSize()
       break
     }
     case 'setTextToMax': {
