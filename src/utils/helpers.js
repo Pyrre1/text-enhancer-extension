@@ -35,7 +35,7 @@ export function highlightElement(element, type) {
  * Returns all elements matching a semantic category.
  * Filters out elements without visible text.
  */
-export function getElementsByCategories(category) {
+export function getElementsByCategory(category) {
   const tags = selectorMap[category] || []
   return Array.from(document.querySelectorAll(tags.join(',')))
   .filter(element => element.innerText.trim().length > 0)

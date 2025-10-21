@@ -1,12 +1,13 @@
 import { sendMessage } from '../utils/messaging.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-  
+
   // Toggle selectors for body text, headings, and/or links
   const toggleSelector = (btnId, selector) => {
     const button = document.getElementById(btnId)
     button.addEventListener('click', () => {
       button.classList.toggle('active')
+      console.log(`Toggling selector: ${selector}`)
       sendMessage('toggleSelector', { selector })
     })
   }
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sendMessage('setColorScheme', { themeName: 'dark' })
   })
   document.getElementById('theme-contrast').addEventListener('click', () => {
-    sendMessage('setColorScheme', { themeName: 'contrast' })
+    sendMessage('setColorScheme', { themeName: 'highContrast' })
   })
   // More granular color adjustments
   let textColorTimeout, backgroundColorTimeout
@@ -70,8 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Reset all enhancements
   document.getElementById('resetAll').addEventListener('click', () => {
-    sendMessage('resetTextSize')
-    sendMessage('restoreFontFamily')
-    sendMessage('restoreColors')
+    sendMessage('resetAll')
   })
 })

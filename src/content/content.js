@@ -1,7 +1,7 @@
 import {
   getBestSelector,
   highlightElement,
-  getElementsByCategories,
+  getElementsByCategory,
   applyToMatches
 } from '../utils/helpers.js'
 import { createTextEnhancer } from 'text-enhancer'
@@ -12,7 +12,7 @@ const enhancer = createTextEnhancer({
   selectors: [],
   step: 2,
   minSize: 8,
-  maxSize: 40,
+  maxSize: 70,
   root: document
 })
 
@@ -74,14 +74,36 @@ function safelyRemoveSelector(selector) {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
     // Adds all elements of a category to selections
-    case 'addCategory': {
-      const elements = getElementsByCategories(request.category)
+    case 'toggleSelector': {
+      const elements = getElementsByCategory(request.selector)
+      console.log('Toggling selector:', request.selector)
+      console.log(`Found ${elements.length} elements`)
+
+      if (elements.length === 0) {
+        break
+      }
+      
+      const firstElement = elements[0]
+      const isSelected = selectedElements.has(firstElement)
+
+      if (isSelected) {
+        // Remove all elements in this category
+        elements.forEach(element => {
+          selectedElements.delete(element)
+          elementsToEnhance.delete(element.tagName.toLowerCase())
+          highlightElement(element, null)
+        })
+        console.log('Removed elements in category:', request.selector)
+      } else {
+        // Add all elements in this category
       elements.forEach(element => {
         selectedElements.add(element)
         elementsToEnhance.add(element.tagName.toLowerCase())
         highlightElement(element, 'selected')
-        console.log('Added element:', element)
       })
+      console.log('Added elements in category:', request.selector)
+      }
+      syncEnhancerSelectors()
       break
     }
     // Adds one specific element to selections
@@ -185,75 +207,88 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     // Exits selection mode and clears all highlights
     case 'exitSelectionMode': {
-      applyToMatches('.enhancer-selected, .enhancer-hover-add, .enhancer-hover-remove', elements =>
-        element.classList.remove('enhancer-selected', 'enhancer-hover-add', 'enhancer-hover-remove'))
-        .forEach(element => element.classList.remove('enhancer-selected', 'enhancer-hover-add', 'enhancer-hover-remove'))
+      document.querySelectorAll('.enhancer-selected, .enhancer-hover-add, .enhancer-hover-remove').forEach(element => {
+        element.classList.remove('enhancer-selected', 'enhancer-hover-add', 'enhancer-hover-remove')
+      })
       selectedElements.clear()
       elementsToEnhance.clear()
       break
     }
 
+
     // Applies selected enhancements to selected elements
     // Text size adjustments:
     case 'setTextToMin': {
+      console.log('Setting text to min size')
       syncEnhancerSelectors()
       enhancer.setTextToMin()
       break
     }
     case 'decreaseTextSize': {
+      console.log('Decreasing text size')
       syncEnhancerSelectors()
       enhancer.decreaseTextSize()
       break
     }
     case 'increaseTextSize': {
+      console.log('Increasing text size')
       syncEnhancerSelectors()
       enhancer.increaseTextSize()
       break
     }
     case 'setTextToMax': {
+      console.log('Setting text to max size')
       syncEnhancerSelectors()
       enhancer.setTextToMax()
       break
     }
     case 'restoreTextSize': {
+      console.log('Restoring text size')
       syncEnhancerSelectors()
       enhancer.restoreTextSize()
       break
     }
     // Font family adjustments:
     case 'cycleFont': {
+      console.log('Cycling font family')
       syncEnhancerSelectors()
-      enhancer.cycleFontFamily()
+      enhancer.cycleFontSet()
       break
     }
     case 'restoreFontFamily': {
+      console.log('Restoring font family')
       syncEnhancerSelectors()
       enhancer.restoreFontFamily()
       break
     }
     // Color theme adjustments:
     case 'setColorScheme': {
+      console.log('Setting color scheme')
       syncEnhancerSelectors()
       enhancer.applyColorTheme(request.themeName)
       break
     }
     case 'changeTextColor': {
+      console.log('Changing text color!!')
       syncEnhancerSelectors()
       enhancer.changeTextColor(request.color)
       break
     }
     case 'changeBackgroundColor': {
+      console.log('Changing background color!!')
       syncEnhancerSelectors()
       enhancer.changeBackgroundColor(request.color)
       break
     }
     case 'restoreColors': {
+      console.log('Restoring colors')
       syncEnhancerSelectors()
       enhancer.restoreColors()
       break
     }
     // Resets all enhancements on selected elements
     case 'resetAll': {
+      console.log('Resetting all enhancements??')
       syncEnhancerSelectors()
       enhancer.restoreTextSize()
       enhancer.restoreFontFamily()
