@@ -8,17 +8,19 @@ Meningsfulla namn är nog en av de saker som var lättast att ta till sig och so
 
 Här ser man att `removeCategory` syftar till att ta bort en kategori, och den börjar med att `getElementsByCategory`, där den önskade kategorin skickas med, sparar till `elements`. Sedan cyklas alla element igenom 'avmarkering' och 'selektering för att tas bort från aktiva element' och sedan körs `safelyRemoveSelector` på de element som ingår i kategorin.
 
+Trots att L2 lämnades in efter kapitel 2 har jag insett att `increaseTextSize()` var bättre än `increase()` så även där har förbättringar skett.
+
 ## Kapitel 3 -Funktioner.
 Funktioner är en av de saker jag haft svårast för då jag fastnat lite i gamla banor av att det är bra att hålla allt samlat på ett ställe. Som införstådd på vad som skrivits (av mig själv) har behovet inte varit tydligt innan, men efter workshopen där vi skulle sätta oss in i varandras kod utan bra instruktioner innan lyste det självklara i det!
 Mitt främsta problem när all kod hamnade på samma ställe var att allt flöt ihop och L2 blev en monsterfil med 300 rader kod som egentligen skulle varit bättre att dela upp.
-För att ha ett mindre exempel som får plats i en bild tar jag `increaseZ()` som efter refaktorisering fick bättre namn (Kapitel 2) `increaseZTextSize()` men också skrevs om från:
+För att ha ett mindre exempel som får plats i en bild tar jag `increase()` som efter refaktorisering fick bättre namn (Kapitel 2) `increaseTextSize()` men också skrevs om från:
 
 ![Före](image-3.png)
 
-Med extrakontroller och en if-sats med varning/felhantering
+Med extrakontroller och en if-sats med varning/felhantering (bryter mot single responsibility orinciple)
 Till:
 
-![alt text](image-4.png)
+![efter](image-4.png)
 
 Där bara storleksförändringen sker.
 
@@ -60,15 +62,36 @@ Till en mer expanderad filstruktur med klarare syfte och uppdelat ansvar:
 ![Efter refaktorisering](image-9.png)
 
 ## Kapitel 7 - Felhantering.
-Felhanteringen som lyfts fram i boken och föreläsningar med undantag hellre än fel var svårt att lösa och i L2 löste jag det genom magic numbers, som inte var helt optimalt. Då JavaScript inte stödjer undantag blev det en balansgång i felhantering med errors och "tvångslösningar" på felaktig indata.
+Felhanteringen som lyfts fram i boken och föreläsningar med undantag hellre än fel var svårt att lösa och i L2 löste jag det genom magic numbers, som inte var helt optimalt. Då JavaScript inte stödjer undantag "throw Exception" blev det en balansgång i felhantering med errors och "tvångslösningar" på felaktig indata.
 I L3 och med refaktoriseringen av modulen valde jag att skapa en egen errorhantering för att göra den mer anpassad. Jag ersatte magiska nummer med variabler för att inte introducera hårdkodade fel i koden.
 
 ![Felhantering](image-10.png)
 
-## Kapitel 8 -
+Utöver det har jag också försökt använda try-catch vilket saknades i L2 som också förbättrar kodflödet.
+Felhanteringen upplever jag var svår att få till på ett bra sätt och kommer försöka fortsätta förbättra mig i det.
 
-## Kapitel 9 -
+## Kapitel 8 - Gränser.
+En gränsjustering som jag använt är isolering av tredjepartskod som wrappas för att hålla isär egen kod från tredjepartskod. I plugin'et har jag en `messaging` som använder `chrome.tab.sendMessage` och `chrome.scripting.executeScript`. På detta sättet har jag isolerat Chromes API i användandet i plugin-koden:
 
-## Kapitel 10 -
+![Chrome wrapper](image-11.png)
 
-## Kapitel 11 -
+
+## Kapitel 9 - Enhetstester.
+Jag la till några tester till de funktioner som inte var med i L2, men har haft lite tur i att jag var i grupp med en student som kunde mycket om tester i det egna projektet tidigare termin. Då vi pratade mycket om tester i den kursen var mina tester redan formulerade på ett sätt så de testade en sak i taget. Jag ville skriva testerna så det var tydligt vilka tester som hör till vilken kod, men också vad de testar för att uppfylla något av bokens tre rekommendationer för Clean Tests; "Readability, readability, and readability". Detta skulle eventuellt kunna bli ännu bättre med fler utbrutna testsviter och bättre formuleringar.
+
+Då min plugin ska påverka textelement på en sida och alla sidor ser olika ut har jag valt att gå för en visuell testning och bedömt om pluginet gör det som förväntas. På detta sätt upptäckte jag till exempel att om texten var större än det max som angetts i config så blev den *mindre* när jag testade att *öka* storleken som "användare". 
+
+Att skriva kod testdrivet ser jag stora fördelar i, men har svårt att skaka av mig känslan av att koden blir lite färgad av testerna. I exemplet med max-storlek hade jag inte själv kommit på att det är en sak som kan förekomma, när jag satt och formulerade modulen. Det var först när modulen skulle användas i min plugin och denna plugin skulle användas på hemsidor som för mig oförutsedda "fel" eller brister uppdagades.
+
+Tillexempel har IKEA's hemsida byggts på ett sätt som gör att "bakgrund" till ett element som identifierats som ett textelement hamnar som förgrund. Elementet har till synes ingen text, och jag har inte kunnat identifiera varför det sker då jag tycker mig ha en element-selektor-hanterare som bara plockar ut element med text. Detta är tyvärr ett fel som kommer få bestå och jag ser som ett hinder för fortsatt utveckling av pluginet då alla hemsidor är byggda på olika sätt. Det kommer krävas en rigorös och modulär selektering för att det skulle bli mer strömlinjeformat utan falska positiva selekteringar. 
+
+## Kapitel 10 - Klasser.
+Boken önskar av klasser att de ska vara fokuserade, följa SRP (Single Responsibility Principle) och hållas små. Jag skrev om den groteska `controller` som hade vuxit ur "liten, fokuserad och ha ett ansvarsområde" från L2 till `TextEnhancerController` där det blev **mycket** lättare att följa efter refaktoriseringen. Den gör det den ska, den är kanske lite stor utifrån min referensram då många kodfiler som är små endast håller 5-6 rader, men i relation till hur den såg ut tidigare har den absolut bättre passform i "liten, fokuserad med enkelt ansvarsområde"
+
+![CleanClass](image-12.png)
+
+## Kapitel 11 - Systemdesign.
+Jag uppskattade bokens referens och liknelse till hur en stad ser ut. En stad behöver vatten, ström, har trafik, polis m.m. Med denna stadsdesign behöver inte varje enskild entitet kunna helheten själv för att fungera. Att försöka skriva sin kod på samma sätt känns logiskt och ett exempel som jag kommer på direkt är min första vision om pluginet som jag tänkte skulle ha en egen meny så som många plugins kan ha, men sen ville jag också addera en högerklicksmeny, så när en användare högerklickar på en text så är det *den* texten som är vald och alternativ som, Öka kontrast, Gör texten större eller Byt färg på texten skulle komma fram. Tyvärr hann jag inte få till det då stora delar av implementationen behövde göras om flera gånger för att alla funktioner skulle följa med och pluginet skulle bete sig som önskat. Men med den struktur som finns nu har den "inbyggda" plugin-menyn skapats i en egen `/popup`-mapp som håller texten, funktionen och stylingen separerad. 
+Skulle en högerklicksmeny läggas till, som inte är tänkt att fungera på samma sätt så kan den skapas i en egen mapp och implementeras utan att popup påverkas, likt en ny stadsdel som byggs till staden eller att ett nytt postkontor som öppnar inte påverkar exempelvis polisen osv.
+
+
