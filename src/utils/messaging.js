@@ -9,7 +9,6 @@ export const sendMessage = async (action, payload = {}) => {
 
     // Send message to content script
     await chrome.tabs.sendMessage(tab.id, { action, ...payload })
-    console.log(`Message sent: ${action}`, payload)
   } catch (error) {
     console.error('Error sending message to content script:', error)
     

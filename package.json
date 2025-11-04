@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "text-enhancer": "^1.0.0"
+    "text-enhancer": "^1.0.1"
   },
   "devDependencies": {
     "vite": "^7.1.7"

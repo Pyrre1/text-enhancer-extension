@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const button = document.getElementById(btnId)
     button.addEventListener('click', () => {
       button.classList.toggle('active')
-      console.log(`Toggling selector: ${selector}`)
       sendMessage('toggleSelector', { selector })
     })
   }

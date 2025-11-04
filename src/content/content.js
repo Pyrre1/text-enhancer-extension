@@ -6,7 +6,6 @@ import {
 } from '../utils/helpers.js'
 import { createTextEnhancer } from 'text-enhancer'
 
-console.log('Text Enhancer content script loaded')
 // Initialize the Text Enhancer with default settings
 const enhancer = createTextEnhancer({
   selectors: [],
@@ -76,13 +75,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Adds all elements of a category to selections
     case 'toggleSelector': {
       const elements = getElementsByCategory(request.selector)
-      console.log('Toggling selector:', request.selector)
-      console.log(`Found ${elements.length} elements`)
 
       if (elements.length === 0) {
         break
       }
-      
+
       const firstElement = elements[0]
       const isSelected = selectedElements.has(firstElement)
 
@@ -93,15 +90,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           elementsToEnhance.delete(element.tagName.toLowerCase())
           highlightElement(element, null)
         })
-        console.log('Removed elements in category:', request.selector)
       } else {
         // Add all elements in this category
-      elements.forEach(element => {
-        selectedElements.add(element)
-        elementsToEnhance.add(element.tagName.toLowerCase())
-        highlightElement(element, 'selected')
-      })
-      console.log('Added elements in category:', request.selector)
+        elements.forEach(element => {
+          selectedElements.add(element)
+          elementsToEnhance.add(element.tagName.toLowerCase())
+          highlightElement(element, 'selected')
+        })
       }
       syncEnhancerSelectors()
       break
@@ -117,7 +112,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       applyToMatches(selector, (match) => {
         selectedElements.add(match)
         highlightElement(match, 'selected')
-        console.log('Added:', getBestSelector(element), element)
 
       })
       break
@@ -219,76 +213,64 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Applies selected enhancements to selected elements
     // Text size adjustments:
     case 'setTextToMin': {
-      console.log('Setting text to min size')
       syncEnhancerSelectors()
       enhancer.setTextToMin()
       break
     }
     case 'decreaseTextSize': {
-      console.log('Decreasing text size')
       syncEnhancerSelectors()
       enhancer.decreaseTextSize()
       break
     }
     case 'increaseTextSize': {
-      console.log('Increasing text size')
       syncEnhancerSelectors()
       enhancer.increaseTextSize()
       break
     }
     case 'setTextToMax': {
-      console.log('Setting text to max size')
       syncEnhancerSelectors()
       enhancer.setTextToMax()
       break
     }
     case 'restoreTextSize': {
-      console.log('Restoring text size')
       syncEnhancerSelectors()
       enhancer.restoreTextSize()
       break
     }
     // Font family adjustments:
     case 'cycleFont': {
-      console.log('Cycling font family')
       syncEnhancerSelectors()
       enhancer.cycleFontSet()
       break
     }
     case 'restoreFontFamily': {
-      console.log('Restoring font family')
       syncEnhancerSelectors()
       enhancer.restoreFontFamily()
       break
     }
     // Color theme adjustments:
     case 'setColorScheme': {
-      console.log('Setting color scheme')
       syncEnhancerSelectors()
       enhancer.applyColorTheme(request.themeName)
       break
     }
     case 'changeTextColor': {
-      console.log('Changing text color!!')
       syncEnhancerSelectors()
       enhancer.changeTextColor(request.color)
       break
     }
     case 'changeBackgroundColor': {
-      console.log('Changing background color!!')
       syncEnhancerSelectors()
       enhancer.changeBackgroundColor(request.color)
       break
     }
     case 'restoreColors': {
-      console.log('Restoring colors')
       syncEnhancerSelectors()
       enhancer.restoreColors()
       break
     }
     // Resets all enhancements on selected elements
     case 'resetAll': {
-      console.log('Resetting all enhancements??')
       syncEnhancerSelectors()
       enhancer.restoreTextSize()
       enhancer.restoreFontFamily()
