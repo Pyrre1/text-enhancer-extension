@@ -85,5 +85,5 @@ Stängs menyn ner så skrivs återställningsläget över nästa gång menyn öp
 
 ## Tester och krav
 
-- [Kravspecifikation (Wiki)](https://github.com/Pyrre1/text-enhancer-extension/wiki/Kravspecifikation)
+- [Kravspecifikation (Wiki)](https://github.com/Pyrre1/text-enhancer-extension/wiki/Dokumentation)
 - [Testspecifikation och Testrapport (Wiki)](https://github.com/Pyrre1/text-enhancer-extension/wiki/Tester)
