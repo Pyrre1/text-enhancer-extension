@@ -81,3 +81,9 @@ Stängs menyn ner så skrivs återställningsläget över nästa gång menyn öp
 1. [Ladda ned och unzippa filen på din dator](https://github.com/Pyrre1/text-enhancer-extension/raw/main/downloads/text-enhancer-extension.zip)
 2. Gå till extensions i chrome `chrome://extensions` och aktivera programmerarläget.
 3. Ladda upp mappen.
+
+
+## Tester och krav
+
+- [Kravspecifikation (Wiki)](https://github.com/Pyrre1/text-enhancer-extension/wiki/Kravspecifikation)
+- [Testspecifikation och Testrapport (Wiki)](https://github.com/Pyrre1/text-enhancer-extension/wiki/Tester)
